@@ -58,17 +58,3 @@ p {
 .copyright {
 	text-align: center;
 }
-
-/* 이 위까지 고정값 */
-
-div.main{
-	margin: 8%;
-}
-img.logo{
-	width: 250px;
-	margin:auto;
-	display: block;
-}
-div.search-bar{
-	width: 60%;
-}
