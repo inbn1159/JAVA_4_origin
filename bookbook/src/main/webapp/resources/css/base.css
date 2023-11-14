@@ -14,14 +14,12 @@ body {
 	padding: 15px;
 	background-color: #fafae5;
 }
-
+header{
+	display: flex;
+	justify-content: space-between;
+}
 ul.sign {
 	list-style: none;
-}
-
-li.sign {
-	padding: 2px;
-	float: right;
 }
 
 a.nav-link {
@@ -34,6 +32,14 @@ h1 {
 
 header {
 	text-align: right;
+}
+
+.nev-item{
+	height: 90px;
+	display: grid;
+	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-areas:
+		". main end"
 }
 
 .title {
