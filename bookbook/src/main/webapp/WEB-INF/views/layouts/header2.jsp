@@ -39,9 +39,17 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 img.logo-sm {
-	margin: auto;
 	width: 120px;
 	height: 68px;
+}
+.blank {
+	width: 175px;
+	height: 71px;
+}
+.info {
+	list-style: none;
+	display: flex;
+	flex-direction: column-reverse;	
 }
 </style>
 
@@ -50,13 +58,15 @@ img.logo-sm {
 <body>
 	<div class=background>
 		<header>
-			<ul class="navbar-nav ml-auto sign">
-				<%-- <sec:authorize access="isAuthenticated()"> 
+			<div class="blank"></div>
+			<div class="blank"></div>
+			<ul class="navbar-nav ml-auto info">
+				<!-- <sec:authorize access="isAuthenticated()"> 
 					<sec:authentication property="principal.username" var="username" />
-					로그인 된 상태 --%>
-				<li class="nav-item"><img class="logo-sm"
-					src="/resources/images/logo1.png">
-					<button type="button" class="btn btn-secondary dropdown-toggle"
+					로그인 된 상태 -->
+				<li class="nav-item pannel">
+					<button type="button"
+						class="btn btn-secondary dropdown-toggle togBut"
 						data-bs-toggle="dropdown" aria-expanded="false">
 						<img class="avatar avatar-24 bg-light rounded-circle"
 							src="https://api.dicebear.com/7.x/identicon/svg?seed=대충 유저이름" />
@@ -67,30 +77,21 @@ img.logo-sm {
 						<li><a class="dropdown-item" href="#">로그아웃</a></li>
 						<li><hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item" href="#">프로필</a></li>
-					</ul></li>
+					</ul>
+				</li>
+				<!-- </sec:authorize> -->
 
-				<%--
-					<li class="nav-item"><a class="nav-link"
-						href="/security/profile"> <img
-							src="/security/avatar/sm/${username}" class="avatar-sm" />
-							${username}
-					</a></li>
-					<li class="nav-item"><a class="nav-link logout-link" href="#">
-							<i class="fa-solid fa-right-from-bracket"></i> 로그아웃
-					</a></li>
-					--%>
-
-				<%-- </sec:authorize> --%>
-
-				<%-- <sec:authorize access="isAnonymous()">
+				 <!-- <sec:authorize access="isAnonymous()">
 					로그아웃 된 상태
-					<li class="nav-item sign"><!-- 로그인 페이지로 넘어갈 수 있게 -->
-						<button type="button" class="btn btn-outline-primary sign" onclick="/security/login"> 로그인 </button>
+				<div>
+					<li class="nav-item">
+						로그인 페이지로 넘어갈 수 있게
+						<button type="button" class="btn btn-outline-primary sign"
+							onclick="/security/login">로그인</button> 회원가입 페이지로 넘어갈 수 있게
+						<button type="button" class="btn btn-outline-primary sign"
+							onclick="/security/login">회원가입</button>
 					</li>
-
-					<li class="nav-item sign"><!-- 회원가입 페이지로 넘어갈 수 있게 -->
-						<button type="button" class="btn btn-outline-primary sign" onclick="/security/login"> 회원가입 </button>
-					</li>
-				</sec:authorize> --%>
+				</div>
+				</sec:authorize> -->
 			</ul>
 		</header>

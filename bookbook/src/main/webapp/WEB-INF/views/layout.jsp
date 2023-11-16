@@ -14,5 +14,6 @@
       <button>더미 버튼</button>
       <!-- 부트스트랩으로 쓰도록 합시다... -->
 </div>
+</div> <!-- <div class="background용"> 없애지 마시오-->
 
 <%@include file="layouts/footer.jsp"%>

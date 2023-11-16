@@ -7,7 +7,6 @@
 <script src="/resources/js/search.js"></script>
 
 <div class="main">
-	<!-- 이 안에 본문 내용 넣어주시고 class 명도 꼭 같이 넣어주세요 -->
 	<img class="logo" src="/resources/images/logo1.png">
 	<!-- 검색창 -->
 	<form:form id="searchForm" action="/recommend" method="GET">
@@ -26,6 +25,7 @@
 		</div>
 	</form:form>
 </div>
+</div> <!-- <div class="background용"> 없애지 마시오-->
 
 
 <style>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.bookbook.mapper.BookMapper">
+	<select id="getListPaging" resultType="com.vam.model.BoardVO">
+
+		select * from (
+			select title, author, book_intro, publisher
+			from vam_board
+				<if test="keyword != null">
+				where title like concat('%',#{keyword},'%' )
+				</if>
+			order by bno desc) as T1
+		limit #{skip},#{amount}
+
+	</select>
+</mapper>
