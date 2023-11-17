@@ -19,6 +19,7 @@ header {
 	display: flex;
 	justify-content: space-between;
 	border-bottom: 3px solid gray;
+	height: 93px;
 }
 
 .sign {
@@ -38,6 +39,7 @@ header {
 }
 
 .avatar {
+	background: white;
 	width: 32px;
 	height: 32px;
 	border: 2px solid black;

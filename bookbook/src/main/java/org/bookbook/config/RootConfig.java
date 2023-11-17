@@ -32,9 +32,9 @@ public class RootConfig {
 //		config.setJdbcUrl("jdbc:mysql://localhost:3306/glory_db");
 	//	
 		config.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
-		config.setJdbcUrl("jdbc:log4jdbc:mysql://localhost:3306/mini_db"); // DBaver에서 데이터베이스 이름입력
-		config.setUsername("mini1");    //사용자  ID
-		config.setPassword("1234"); //비밀번호
+		config.setJdbcUrl("jdbc:log4jdbc:mysql://49.50.167.140:3306/testdb"); // DBaver에서 데이터베이스 이름입력
+		config.setUsername("test-user");    //사용자  ID
+		config.setPassword("1234qwer"); //비밀번호
 		
 		HikariDataSource dataSource = new HikariDataSource(config);
 		return dataSource;

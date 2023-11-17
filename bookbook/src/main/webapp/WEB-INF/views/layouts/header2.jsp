@@ -26,77 +26,68 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
 <script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+	integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+	crossorigin="anonymous"></script>
 <script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+	integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+	crossorigin="anonymous"></script>
 <style>
 .blank {
 	border: 3px solid red;
 	width: 140px;
 	height: 39px;
 }
-
-.dropdown-menu {
+header {
 	
+	justify-content:flex-end;
 }
 </style>
 </head>
 <body>
 	<div class=background>
 		<header>
-			<div class="blank"></div>
-			<img class="logo_sm" src="/resources/images/logo1.png">
 			<ul class="navbar-nav sign">
-				<!-- <sec:authorize access="isAuthenticated()">
+				<!-- 			<sec:authorize access="isAuthenticated()">
 					<sec:authentication property="principal.username" var="username" />
-					로그인 된 상태 -->
+					로그인 된 상태
 				<li class="nav-item">
-					<!-- Example single danger button -->
 					<div class="btn-group">
-						<button type="button" class="btn btn-second dropdown-toggle"
-							data-bs-toggle="dropdown" aria-expanded="false">Action</button>
-						
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">Action</a></li>
-							<li><a class="dropdown-item" href="#">Another action</a></li>
-							<li><a class="dropdown-item" href="#">Something else
-									here</a></li>
-							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="#">Separated link</a></li>
-						</ul>
-					</div>
-					<!-- <div class="dropdown">
-						<button class="btn btn-secondary dropdown-toggle info"
-							type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-							aria-expanded="false">
+						<button type="button" class="btn btn-secondary dropdown-toggle"
+							data-bs-toggle="dropdown" aria-expanded="false">
 							<img class="avatar"
 								src="https://api.dicebear.com/7.x/identicon/svg?seed=대충 아이디" />
-							대충 아이디
+							대충 아이디 js로 아이디 받아서 뜨도록
 						</button>
+
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 							<li><a class="dropdown-item" href="#">로그아웃</a></li>
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item" href="#">프로필</a></li>
 						</ul>
-					</div> -->
+					</div> 
 				</li>
 
+				</sec:authorize>
+				<sec:authorize access="isAnonymous()"> -->
 
 
-
+				<li class="nav-item sign">
+					<button type="button" class="btn btn-secondary"
+						onclick="location.href='/security/login'">
+						<!-- 코드보기 편하게용 주석 -->
+						로그인
+					</button>
+				</li>
+				<li class="nav-item sign">
+					<button type="button" class="btn btn-secondary"
+						onclick="location.href='/security/signup'">
+						<!-- 코드보기 편하게용 주석 -->
+						회원가입
+					</button>
+				</li>
 
 				<!-- </sec:authorize> -->
-				<%-- <sec:authorize access="isAnonymous()">
-					로그아웃 된 상태
-					<li class="nav-item sign"><a class="nav-link"
-						href="/security/login"> <i
-							class="fa-solid fa-right-to-bracket"></i> 로그인
-					</a></li>
-					<li class="nav-item sign"> / </li>
-					<li class="nav-item sign"><a class="nav-link"
-						href="/security/signup"> <i class="fa-solid fa-user-plus"></i>
-							회원가입
-					</a></li>
-				</sec:authorize> --%>
 			</ul>
 		</header>
