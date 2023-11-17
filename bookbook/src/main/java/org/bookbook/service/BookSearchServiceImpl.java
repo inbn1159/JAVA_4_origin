@@ -19,7 +19,7 @@ public class BookSearchServiceImpl implements BookSearchService {
     BookSearchMapper bookSearchMapper;
 
     @Override
-    public List<BookVO> getList(BookSearchVO bookSearch) {
+    public List<BookVO> getBookList(BookSearchVO bookSearch) {
         log.info(bookSearch);
         return bookSearchMapper.read(bookSearch);
     }

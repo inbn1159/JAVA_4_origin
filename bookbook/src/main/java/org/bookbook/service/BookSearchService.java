@@ -7,7 +7,7 @@ import org.bookbook.domain.BookVO;
 import org.bookbook.domain.CategoriesVO;
 
 public interface BookSearchService {
-    public List<BookVO> getList(BookSearchVO bookSearch);
+    public List<BookVO> getBookList(BookSearchVO bookSearch);
 
     public List<CategoriesVO> getCategoriesList(CategoriesVO categories);
 }
