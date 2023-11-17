@@ -1,11 +1,11 @@
-package org.galapagos.service;
+package org.bookbook.service;
 
 import java.util.List;
 
-import org.galapagos.domain.BookSearchVO;
-import org.galapagos.domain.BookVO;
-import org.galapagos.domain.CategoriesVO;
-import org.galapagos.mapper.BookSearchMapper;
+import org.bookbook.domain.BookSearchVO;
+import org.bookbook.domain.BookVO;
+import org.bookbook.domain.CategoriesVO;
+import org.bookbook.mapper.BookSearchMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,10 +1,10 @@
-package org.galapagos.service;
+package org.bookbook.service;
 
 import java.util.List;
 
-import org.galapagos.domain.BookSearchVO;
-import org.galapagos.domain.BookVO;
-import org.galapagos.domain.CategoriesVO;
+import org.bookbook.domain.BookSearchVO;
+import org.bookbook.domain.BookVO;
+import org.bookbook.domain.CategoriesVO;
 
 public interface BookSearchService {
     public List<BookVO> getList(BookSearchVO bookSearch);

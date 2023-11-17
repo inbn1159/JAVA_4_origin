@@ -1,12 +1,12 @@
-package org.galapagos.controller;
+package org.bookbook.controller;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.galapagos.domain.BookSearchVO;
-import org.galapagos.domain.CategoriesVO;
-import org.galapagos.service.BookSearchService;
+import org.bookbook.domain.BookSearchVO;
+import org.bookbook.domain.CategoriesVO;
+import org.bookbook.service.BookSearchService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-@RequestMapping("/security")
+@RequestMapping("/")
 @Controller
 public class BookController {
     @Autowired

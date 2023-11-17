@@ -1,11 +1,11 @@
-package org.galapagos.mapper;
+package org.bookbook.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.galapagos.domain.BookSearchVO;
-import org.galapagos.domain.BookVO;
-import org.galapagos.domain.CategoriesVO;
+import org.bookbook.domain.BookSearchVO;
+import org.bookbook.domain.BookVO;
+import org.bookbook.domain.CategoriesVO;
 
 @Mapper
 public interface BookSearchMapper {

@@ -10,34 +10,48 @@
             <form:input path="keywords" cssClass="form-control rounded-0" />
 
             <script>
+            	// DB에서 카테고리, 장르 값 받아오는 스크립트
                 var searchBookList = ${searchBook};
                 var genres = Object.keys(searchBookList);
 
                 for (var i = 0; i < genres.length; i++) {
+                	// genres 안의 genre 선언
                     var genre = genres[i];
+                    
+                    // 카테고리 문자열을 리스트 형식으로 바꿔줌
                     var categories = searchBookList[genre].split(',');
-
+					
+                    // div 생성
                     var div = document.createElement('div');
+                	// genre를 div id로 설정
                     div.id = genre;
+                	// html에 보여지는 값을 genre로 설정
                     div.textContent = genre;
 
+                	// div 뭉치들을 띄워줌
                     div.appendChild(document.createElement('br'));
+                	// html body에 자식으로 선언
                     document.body.appendChild(div);
 
+                	// categories를 분리 시킴 : 전부 div안에서 생성되고 있음
                     for (var j = 0; j < categories.length; j++) {
+                    	// category 선언
                         var category = categories[j];
 
+                    	// category 선택 할 수 있게 checkbox 생성
                         var checkbox = document.createElement('input');
                         checkbox.type = 'checkbox';
                         checkbox.name = 'categories'; // 같은 그룹의 체크박스로 묶기 위해 name 설정
-                        checkbox.value = category;   // div_id + checkbox 값으로 카테고리의 키 사용
+                        checkbox.value = category;   // 눌렀을 때 전송되는 값 설정
 
+                        // 보여지는 값 설정
                         var label = document.createElement('label');
                         label.appendChild(document.createTextNode(category));
                         
+                        // set 설정 (중복 genre 값 제외)
                         var selectedGenresSet = new Set();
 
-                     // 이벤트 핸들러 추가
+                     // 이벤트 핸들러 추가				//category, genre
                         checkbox.onclick = function (key1, key2) {
                             return function () {
                                 // 체크박스가 체크되면 실행할 동작
@@ -48,7 +62,9 @@
                                     }
                                     document.getElementById('selectedCategory').value += key1;
                                     
+                                    // selectedGenresSet안에 genre 유무 판단
                                     if (!selectedGenresSet.has(key2)) {
+                                    	// 없다면 genre 추가
                                     	selectedGenresSet.add(key2);
                                         if (document.getElementById('selectedGenre').value !== '') {
                                             document.getElementById('selectedGenre').value += ',';
