@@ -39,37 +39,36 @@ public class UserServiceImpl implements UserService {
 		return mapper.read(userid);
 	}
 
-	
-	//�쉶�썝 媛��엯
+	//회원 가입
 	@Override
 	public void register(UserVO userid) throws IOException {
 
-		// 1. 鍮꾨�踰덊샇 �븫�샇�솕
+		// 1. 비밀번호 암호화
 		String encPassword = pwEncoder.encode(userid.getPassword());
 		userid.setPassword(encPassword);
 
-		// 2. users �뀒�씠釉붿뿉 ���옣
+		// 2. user 테이블에 저장
 		mapper.insert(userid);
 
-		// 3. users_auth�뿉 ���옣
+		// 3. auth에 저장
 		AuthVO auth = new AuthVO(userid.getUserid(), "ROLE_USER");
 		mapper.insertAuth(auth);
 
 	}
 
 	
-	// 鍮꾨�踰덊샇 諛붽씀湲�
+	// 비밀번호 바꾸기
 	@Override
 	public boolean changePassword(ChangePasswordVO vo) {
 		UserVO user = mapper.read(vo.getUserid());
 
-		log.info("�엯�젰�맂 orgPassword: " + vo.getOrgPassword());
-		log.info("���옣�맂 鍮꾨�踰덊샇: " + user.getPassword());
-		// �뜲�씠�꽣踰좎씠�뒪�뿉 ���옣�릺�뼱�엳�뒗 �뙣�뒪�썙�뱶
+		log.info("입력된 orgPassword: " + vo.getOrgPassword());
+		log.info("저장된 비밀번호: " + user.getPassword());
+		// 데이터베이스에 저장되어있는 패스워드
 		if (!pwEncoder.matches(vo.getOrgPassword(), user.getPassword())) {
-			// 鍮꾨쾲 �삤瑜�
-			log.info("鍮꾨�踰덊샇 遺덉씪移�.");
-			return false;
+			// 비번 오류
+			log.info("비밀번호 불일치.");
+		return false;
 		}
 
 		String encPassword = pwEncoder.encode(vo.getNewPassword());
