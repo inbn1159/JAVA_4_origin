@@ -1,8 +1,8 @@
-html,
-body {
+html, body {
 	width: 100%;
 	height: 100%;
 }
+
 body {
 	background-color: #add18f;
 }
@@ -15,13 +15,33 @@ body {
 	background-color: #fafae5;
 }
 
-ul.sign {
-	list-style: none;
+header {
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 3px solid gray;
 }
 
-li.sign {
-	padding: 2px;
-	float: right;
+.sign {
+	list-style: none;
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+.logo_sm {
+	width: 120px;
+	height: 81px;
+}
+
+.info {
+	width: 140px;
+	height: 39px;
+}
+
+.avatar {
+	width: 32px;
+	height: 32px;
+	border: 2px solid black;
+	border-radius: 50%;
 }
 
 a.nav-link {
@@ -60,15 +80,16 @@ p {
 }
 
 /* 이 위까지 고정값 */
-
-div.main{
+div.main {
 	margin: 8%;
 }
-img.logo{
+
+img.logo {
 	width: 250px;
-	margin:auto;
+	margin: auto;
 	display: block;
 }
-div.search-bar{
+
+div.search-bar {
 	width: 60%;
 }

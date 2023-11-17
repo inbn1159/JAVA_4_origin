@@ -14,5 +14,6 @@
     </div>
   </form>
 </div>
+</div>
 
 <%@include file="layouts/footer.jsp"%>
