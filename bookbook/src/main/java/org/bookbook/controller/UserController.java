@@ -27,7 +27,7 @@ public class UserController {
 	@ResponseBody
 	public ResponseEntity<List<UserVO>> getAllUsers() {
 		try {
-			List<UserVO> users = userService.getAllUsers();
+			List<UserVO> users = null; // userService.getAllUsers();
 			return ResponseEntity.ok(users);
 		} catch (Exception e) {
 			log.error("Error fetching users", e);

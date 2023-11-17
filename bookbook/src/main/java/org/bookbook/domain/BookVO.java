@@ -1,4 +1,4 @@
-package org.galapagos.domain;
+package org.bookbook.domain;
 
 import java.sql.Date;
 
