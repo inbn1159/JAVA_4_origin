@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.log4j.Log4j;
 
-@Service
+@Service	
 @Log4j
 public class UserServiceImpl implements UserService {
 
@@ -23,6 +23,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserMapper mapper;
+	
+	@Autowired
+	UserService service;
 	
 	 @Autowired
     private FollowerMapper followerMapper;
@@ -36,7 +39,6 @@ public class UserServiceImpl implements UserService {
 		return mapper.read(userid);
 	}
 
-	
 	//회원 가입
 	@Override
 	public void register(UserVO userid) throws IOException {
@@ -45,10 +47,10 @@ public class UserServiceImpl implements UserService {
 		String encPassword = pwEncoder.encode(userid.getPassword());
 		userid.setPassword(encPassword);
 
-		// 2. users 테이블에 저장
+		// 2. user 테이블에 저장
 		mapper.insert(userid);
 
-		// 3. users_auth에 저장
+		// 3. auth에 저장
 		AuthVO auth = new AuthVO(userid.getUserid(), "ROLE_USER");
 		mapper.insertAuth(auth);
 
@@ -66,7 +68,7 @@ public class UserServiceImpl implements UserService {
 		if (!pwEncoder.matches(vo.getOrgPassword(), user.getPassword())) {
 			// 비번 오류
 			log.info("비밀번호 불일치.");
-			return false;
+		return false;
 		}
 
 		String encPassword = pwEncoder.encode(vo.getNewPassword());
@@ -79,12 +81,12 @@ public class UserServiceImpl implements UserService {
 
 	  @Override
 	    public List<UserVO> getAllUsers() {
-	        return mapper.getAllUsers();
+	        return service.getAllUsers();
 	    }
 	  
 	   @Override
 	    public List<UserVO> getAllUsersWithFollowStatus(String currentUserId) {
-		   List<UserVO> users = mapper.getAllUsers();
+		   List<UserVO> users = service.getAllUsers();
 		    users.forEach(user -> {
 		        FollowerVO follow = followerMapper.findFollowByUserIds(currentUserId, user.getUserid());
 		        user.setFollowed(follow != null);

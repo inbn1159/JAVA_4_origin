@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.galapagos.mapper.BookSearchMapper">
+<mapper namespace="org.bookbook.mapper.BookSearchMapper">
 
-<select id="read" parameterType="org.galapagos.domain.BookSearchVO" resultType="BookVO">
+<select id="read" parameterType="org.bookbook.domain.BookSearchVO" resultType="BookVO">
     SELECT DISTINCT b.*
     FROM book b
     JOIN book_keyword bk ON b.book_id = bk.book_id

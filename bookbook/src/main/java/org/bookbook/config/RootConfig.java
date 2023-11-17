@@ -28,13 +28,12 @@ public class RootConfig {
 	@Bean
 	public DataSource dataSource() {
 		HikariConfig config = new HikariConfig();
-//		config.setDriverClassName("com.mysql.cj.jdbc.Driver");
-//		config.setJdbcUrl("jdbc:mysql://localhost:3306/glory_db");
-	//	
+		
+//		jdbc:mysql://49.50.167.140:3306/testdb
 		config.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
-		config.setJdbcUrl("jdbc:log4jdbc:mysql://localhost:3306/mini_db"); // DBaver에서 데이터베이스 이름입력
-		config.setUsername("mini1");    //사용자  ID
-		config.setPassword("1234"); //비밀번호
+		config.setJdbcUrl("jdbc:log4jdbc:mysql://49.50.167.140:3306/testdb"); 
+		config.setUsername("test-user");
+		config.setPassword("1234qwer");
 		
 		HikariDataSource dataSource = new HikariDataSource(config);
 		return dataSource;
