@@ -44,12 +44,13 @@ public class FollowerServiceImpl implements FollowerService {
 	        FollowerVO existingFollow = followerMapper.findFollowByUserIds(followerId, followingId);
 
 	        if (existingFollow != null) {
-	        	  log.info("이미 팔로우 상태. 언팔로우 진행. followId: " + existingFollow.getFollowId());
+	        	  log.info("언팔로우 진행. followId: " + existingFollow.getFollowId());
 	            // 이미 팔로우 상태인 경우, 언팔로우
 	            followerMapper.delete(existingFollow.getFollowId());
 	        } else {
-	        	log.info("팔로우 상태 아님. 팔로우 진행.");
-	            // 팔로우 상태가 아닌 경우, 팔로우
+	        	log.info("팔로우 진행.");
+	        	
+	            // 팔로우 추가하기
 	            FollowerVO newFollow = new FollowerVO();
 	            newFollow.setFollowerId(followerId);
 	            newFollow.setFollowingId(followingId);
