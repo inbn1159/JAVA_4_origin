@@ -9,11 +9,11 @@ public interface FollowerService {
 
 	void follow(FollowerVO follower);
 
-	void unfollow(int followId); // 팔로우 ID를 기반으로 언팔로우 기능을 제공합니다.
+	void unfollow(int followId); // 언팔로우  기능  
 
-	List<FollowerVO> getFollowers(String userId); // 특정 사용자의 팔로워 목록을 가져옵니다.
+	List<FollowerVO> getFollowers(String userId); // 사용자의 팔로워 목록 가져오기
 
-	List<FollowerVO> getFollowings(String userId); // 특정 사용자가 팔로우하는 목록을 가져옵니다.
+	List<FollowerVO> getFollowings(String userId); // 사용자가 팔로우하는 목록 가져오기
 	
-	 void toggleFollow(String followerId, String followingId);  // 팔로우 상태를 토글하는 메소드
+	 void toggleFollow(String followerId, String followingId);  // 팔로우 상태를  토글  
 }
