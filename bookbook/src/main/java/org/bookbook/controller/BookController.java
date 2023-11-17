@@ -43,7 +43,7 @@ public class BookController {
             Model model) {
         log.info("list Page");
         log.info(search);
-        model.addAttribute("list", service.getList(search));
+        model.addAttribute("list", service.getBookList(search));
         // log.info(model);
 
     }
