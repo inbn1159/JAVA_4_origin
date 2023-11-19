@@ -81,7 +81,7 @@ p {
 	text-align: center;
 }
 
-/* 이 위까지 고정값 */
+
 div.main {
 	margin: 8%;
 }
@@ -94,4 +94,7 @@ img.logo {
 
 div.search-bar {
 	width: 60%;
-}
+	border: 2px solid black;
+	border-radius: 5px;
+	background-color: white;
+	}

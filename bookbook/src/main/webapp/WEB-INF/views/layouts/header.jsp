@@ -8,21 +8,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Bookbook</title>
 <head>
-
+<!-- bootstrap css -->
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
 	integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
 	crossorigin="anonymous">
-
+<!-- 글꼴 -->
 <link
 	href="https://hangeul.pstatic.net/hangeul_static/css/maru-buri.css"
 	rel="stylesheet">
 <link
 	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css"
 	rel="stylesheet">
-
+<!-- css링크 -->
 <link rel="stylesheet" href="/resources/css/base.css" />
-
+<!-- bootstrap js -->
 <script
 	src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
 <script
@@ -33,9 +33,10 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
 	integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
 	crossorigin="anonymous"></script>
+	
 <style>
 .blank {
-	border: 3px solid red;
+/* 	border: 3px solid red; */ /* 레이아웃 표시용 빈 상자 테두리 */
 	width: 140px;
 	height: 39px;
 }
@@ -49,7 +50,7 @@
 	<div class=background>
 		<header>
 			<div class="blank"></div>
-			<a href="/main">
+			<a href="/">
 				<img class="logo_sm" src="/resources/images/logo1.png">
 			</a>
 			<!-- 이미지 누르면 화면 이동 기능 -->

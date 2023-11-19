@@ -8,21 +8,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Bookbook</title>
 <head>
-
+<!-- bootstrap css -->
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
 	integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
 	crossorigin="anonymous">
-
+<!-- 글꼴 -->
 <link
 	href="https://hangeul.pstatic.net/hangeul_static/css/maru-buri.css"
 	rel="stylesheet">
 <link
 	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css"
 	rel="stylesheet">
-
+<!-- css링크 -->
 <link rel="stylesheet" href="/resources/css/base.css" />
-
+<!-- bootstrap js -->
 <script
 	src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
 <script
@@ -39,9 +39,24 @@
 	width: 140px;
 	height: 39px;
 }
+
 header {
-	
-	justify-content:flex-end;
+	justify-content: flex-end;
+}
+
+.cate {
+	background-color: white;
+	color: black;
+	border: 1px solid #cccccc;
+}
+
+#searchIco {
+	width: 38px;
+	height: 38px;
+}
+
+#searching {
+	border: none;
 }
 </style>
 </head>
