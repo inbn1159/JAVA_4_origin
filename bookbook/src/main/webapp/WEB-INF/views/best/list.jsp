@@ -5,7 +5,7 @@
 <%-- 개별 페이지 --%>
 <h1>베스트셀러 도서</h1>
 <div>
-<%--@ include file="../common/search_bar.jsp" --%>
+<%@ include file="category_bar.jsp" --%>
 
 <div class="row">
 	<c:forEach var="best_books_ver01" items="${list}">
