@@ -68,8 +68,8 @@ header {
 		<header>
 			<ul class="navbar-nav sign">
 				<sec:authorize access="isAuthenticated()">
-					<sec:authentication property="principal.username" var="username" />
 					<!-- 로그인 된 상태 -->
+			   <c:if test="${not empty username}">
 				<li class="nav-item">
 					<div class="btn-group">
 						<button type="button" class="btn btn-secondary dropdown-toggle sub"
@@ -79,13 +79,13 @@ header {
 						</button>
 
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-							<li><a class="dropdown-item" href="#">로그아웃</a></li>
+							<li><a class="dropdown-item" href="/security/logout">로그아웃</a></li>
 							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="#">프로필</a></li>
+							<li><a class="dropdown-item" href="/security/profile">프로필</a></li>
 						</ul>
 					</div> 
 				</li>
-
+ 			</c:if>
 				</sec:authorize>
 				<sec:authorize access="isAnonymous()">
 				<!-- 로그아웃 된 상태 -->

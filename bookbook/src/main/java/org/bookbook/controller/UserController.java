@@ -1,7 +1,6 @@
 package org.bookbook.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
-
+import java.security.Principal;
 import java.util.List;
 
 import org.bookbook.domain.UserVO;
@@ -23,15 +22,16 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@GetMapping("/users")
-	@ResponseBody
-	public ResponseEntity<List<UserVO>> getAllUsers() {
-		try {
-			List<UserVO> users = userService.getAllUsers();
-			return ResponseEntity.ok(users);
-		} catch (Exception e) {
-			log.error("Error fetching users", e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
-	}
+    @GetMapping("/usersWithFollowStatus")
+    @ResponseBody
+    public ResponseEntity<List<UserVO>> getAllUsersWithFollowStatus(Principal principal) {
+        try {
+            String currentUserId = principal.getName();
+            List<UserVO> users = userService.getAllUsersWithFollowStatus(currentUserId);
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            log.error("Error fetching users", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } //
+    }
 }

@@ -7,7 +7,11 @@
 
 <%@ include file="../layouts/header.jsp"%>
 
-<sec:authentication property="principal.user" var="user" />
+<sec:authorize access="isAuthenticated()">
+	<!-- 사용자 정보 결정 -->
+	<c:set var="user"
+		value="${sessionScope.userId != null ? sessionScope : auth.principal}" />
+</sec:authorize>
 
 <meta name="_csrf" content="${_csrf.token}" />
 <meta name="_csrf_header" content="${_csrf.headerName}" />
@@ -16,34 +20,51 @@
 	var currentUserId = "${user.userid}";
 </script>
 
+
+<!-- 프로필 정보 섹션 -->
 <div class="wrap">
 	<div class="greenContainer">
-		<div>
-			<div class="grade">프로필 사진(dicebear) 넣을 공간</div>
-
+		<!-- 프로필 사진 표시 -->
+		<div class="grade">
+			<c:choose>
+				<c:when test="${not empty sessionScope.naverUser}">
+					<img class="avatar"
+						src="https://api.dicebear.com/7.x/identicon/svg?seed=${sessionScope.naverUser.id}" />
+				</c:when>
+				<c:otherwise>
+					<img class="avatar"
+						src="https://api.dicebear.com/7.x/identicon/svg?seed=${user.userid}" />
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<div class="modify">i</div>
 	</div>
 
-	<!-- 사용자 정보 불러오기 -->
+	<!-- 사용자 정보 표시 -->
 	<div class="d-flex my-3 align-items-center">
 		<div class="ml-4">
-			<div>ID: ${user.userid}</div>
-			<div>이름 : ${user.username}</div>
-			<div>
-				가입일:
-				<fmt:formatDate value="${user.regDate}" pattern="yyyy-MM-dd HH:mm" />
-			</div>
-			<br> 팔로우 기능, 책 평가 및 리뷰 확인 기능 , 알림 기능 구현, <br> 닉네임 또는 사용자 이름
-			표시, 프로필 사진 표시, 회원정보 수정 기능 구현, SNS서평 공유 <br>
+			<c:choose>
+				<c:when test="${not empty sessionScope.naverUser}">
+					<!-- 네이버 사용자 정보 -->
+					<div>ID: ${sessionScope.naverUser.id}</div>
+					<div>이름: ${sessionScope.naverUser.name}</div>
+					<div>Email: ${sessionScope.naverUser.email}</div>
+					<div>성별: ${sessionScope.naverUser.gender}</div>
+					<div>생일: ${sessionScope.naverUser.birthday}</div>
+				</c:when>
+				<c:otherwise>
+					<!-- 일반 사용자 정보 -->
+					<div>ID: ${user.userid}</div>
+					<div>이름 : ${user.username}</div>
+					<div>
+						가입일:
+						<fmt:formatDate value="${user.regDate}" pattern="yyyy-MM-dd HH:mm" />
+					</div>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
-
-
-
 </div>
-
-
 
 
 <div class="listContainer">
@@ -51,7 +72,7 @@
 	<!-- 사용자 프로필 및 정보 -->
 	<div class="user-profile">
 		<!-- 프로필 정보 -->
-		<!-- ... -->
+
 	</div>
 
 	<!-- 팔로우 모달창 표시 버튼 -->
@@ -88,7 +109,7 @@
 
 </div>
 
-<link href="/resources/css/mypage.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/profile.css" rel="stylesheet" type="text/css">
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -107,37 +128,48 @@
 	// 사용자 목록 로드
 	function loadUsers() {
 		console.log("Sending AJAX request");
-		$.ajax({
-			url : '/api/usersWithFollowStatus',
-			method : 'GET',
-			success : function(users) {
-				 var userList = $('#userList');
-	                userList.empty();
-	                var table = $('<table>').addClass('table');
-	                var thead = $('<thead>').append('<tr><th>ID</th><th>이름</th><th></th></tr>');
-	                var tbody = $('<tbody>');
-	                
-	                users.forEach(function(user) {
-	                    var tr = $('<tr>').append('<td>' + user.userid + '</td>').append('<td>' + user.username + '</td>');
-	                    
-	                    // 
-	                    if (user.userid !== currentUserId) {
-	                        var followText = user.followed ? '언팔로우' : '팔로우';
-	                        tr.append('<td><button data-userid="' + user.userid + '" class="btn btn-outline-primary">' + followText + '</button></td>');
-	                    } else {
-	                        tr.append('<td></td>');
-	                    }
-	                    tbody.append(tr);
-	                });
-	                
-	                table.append(thead).append(tbody);
-	                userList.append(table);
-	            },
-	            error: function(error) {
-	                console.log('Error fetching user list:', error);
-	            }
-	        });
-	    }
+		$
+				.ajax({
+					url : '/api/usersWithFollowStatus',
+					method : 'GET',
+					success : function(users) {
+						var userList = $('#userList');
+						userList.empty();
+						var table = $('<table>').addClass('table');
+						var thead = $('<thead>').append(
+								'<tr><th>ID</th><th>이름</th><th></th></tr>');
+						var tbody = $('<tbody>');
+
+						users
+								.forEach(function(user) {
+									var tr = $('<tr>').append(
+											'<td>' + user.userid + '</td>')
+											.append(
+													'<td>' + user.username
+															+ '</td>');
+
+									// 
+									if (user.userid !== currentUserId) {
+										var followText = user.followed ? '언팔로우'
+												: '팔로우';
+										tr
+												.append('<td><button data-userid="' + user.userid + '" class="btn btn-outline-primary">'
+														+ followText
+														+ '</button></td>');
+									} else {
+										tr.append('<td></td>');
+									}
+									tbody.append(tr);
+								});
+
+						table.append(thead).append(tbody);
+						userList.append(table);
+					},
+					error : function(error) {
+						console.log('Error fetching user list:', error);
+					}
+				});
+	}
 
 	// 팔로우 상태 토글
 	function toggleFollow(userId) {
@@ -158,10 +190,10 @@
 					console.error('CSRF header is undefined');
 				}
 			},
-			success: function(response) {
-			    console.log('Follow toggle success:', response);
-			    var button = $('button[data-userid="' + userId + '"]');
-			    button.text(button.text() === '팔로우' ? '언팔로우' : '팔로우');
+			success : function(response) {
+				console.log('Follow toggle success:', response);
+				var button = $('button[data-userid="' + userId + '"]');
+				button.text(button.text() === '팔로우' ? '언팔로우' : '팔로우');
 			},
 			error : function(error) {
 				console.log('팔로우 변경 실패:', error);
@@ -169,13 +201,12 @@
 		});
 	}
 
-	
-	 // 버튼 클릭 이벤트 처리
-    $('#userList').on('click', 'button', function() {
-        var userId = $(this).data('userid');
-        toggleFollow(userId);
-    });
-	 
+	// 버튼 클릭 이벤트 처리
+	$('#userList').on('click', 'button', function() {
+		var userId = $(this).data('userid');
+		toggleFollow(userId);
+	});
+
 	//  모달창 닫기
 	window.onclick = function(event) {
 		if (event.target == document.getElementById('followModal')) {

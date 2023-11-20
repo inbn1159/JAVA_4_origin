@@ -43,7 +43,7 @@ public class UserVO {
 	private String gender;
 
 	private boolean followed; // 팔로우 하고 있는지 여부
-	
+
 	private List<AuthVO> authList;
 
 	// JSON 직렬화에서 이 메소드를 제외
@@ -60,10 +60,5 @@ public class UserVO {
 	public List<String> getRoles() {
 		return this.authList.stream().map(AuthVO::getAuth).collect(Collectors.toList());
 	}
-
-	
-
-	
-
 
 }
