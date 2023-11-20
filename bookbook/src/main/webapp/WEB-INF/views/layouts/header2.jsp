@@ -1,6 +1,7 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -43,7 +44,9 @@
 header {
 	justify-content: flex-end;
 }
-
+.sign .btn{
+	margin-bottom: 5px;
+}
 .cate {
 	background-color: white;
 	color: black;
@@ -64,16 +67,15 @@ header {
 	<div class=background>
 		<header>
 			<ul class="navbar-nav sign">
-				<!-- 			<sec:authorize access="isAuthenticated()">
+				<sec:authorize access="isAuthenticated()">
 					<sec:authentication property="principal.username" var="username" />
-					로그인 된 상태
+					<!-- 로그인 된 상태 -->
 				<li class="nav-item">
 					<div class="btn-group">
-						<button type="button" class="btn btn-secondary dropdown-toggle"
+						<button type="button" class="btn btn-secondary dropdown-toggle sub"
 							data-bs-toggle="dropdown" aria-expanded="false">
 							<img class="avatar"
 								src="https://api.dicebear.com/7.x/identicon/svg?seed=대충 아이디" />
-							대충 아이디 js로 아이디 받아서 뜨도록
 						</button>
 
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -85,24 +87,24 @@ header {
 				</li>
 
 				</sec:authorize>
-				<sec:authorize access="isAnonymous()"> -->
-
+				<sec:authorize access="isAnonymous()">
+				<!-- 로그아웃 된 상태 -->
 
 				<li class="nav-item sign">
-					<button type="button" class="btn btn-secondary"
+					<button type="button" class="btn btn-secondary sub"
 						onclick="location.href='/security/login'">
 						<!-- 코드보기 편하게용 주석 -->
 						로그인
 					</button>
 				</li>
 				<li class="nav-item sign">
-					<button type="button" class="btn btn-secondary"
+					<button type="button" class="btn btn-secondary sub"
 						onclick="location.href='/security/signup'">
 						<!-- 코드보기 편하게용 주석 -->
 						회원가입
 					</button>
 				</li>
 
-				<!-- </sec:authorize> -->
+				</sec:authorize>
 			</ul>
 		</header>
