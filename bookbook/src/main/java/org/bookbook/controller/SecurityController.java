@@ -1,10 +1,14 @@
 package org.bookbook.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+
 import java.io.IOException;
 import java.text.ParseException;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.bookbook.auth.naver.NaverLoginBO;
 import org.bookbook.domain.UserVO;
 import org.bookbook.exception.DateConversionUtil;
 import org.bookbook.service.UserService;
@@ -22,14 +26,16 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @RequestMapping("/security")
 @Log4j
-
 public class SecurityController {
 
+
+	
 	@Autowired
 	UserService service;
 
 	@GetMapping("/login")
 	public void login() {
+
 		log.info("login page");
 	}
 
@@ -38,7 +44,6 @@ public class SecurityController {
 
 	}
 
-	//
 	@PostMapping("/signup")
 	public String signup(@Valid @ModelAttribute("user") UserVO user, Errors errors,
 			@RequestParam("birth.year") String year, @RequestParam("birth.month") String month,
@@ -53,7 +58,7 @@ public class SecurityController {
 		// 2. 아이디 중복
 		if (!errors.hasFieldErrors("userid")) { // username 유효성 통과한 경우에
 			// DB에서 userid을 검사
-			if (service.get(user.getUserid()) != null) { // 중복일떄
+			if (service.get(user.getUserid()) != null) { // 중복일때
 				errors.rejectValue("userid", "ID 중복", "이미 사용중인 ID입니다.");
 			}
 		}
@@ -84,30 +89,11 @@ public class SecurityController {
 
 	@GetMapping("/profile")
 	public void profile() {
-
 	}
 
-	/*
-	 * 
-	 * @GetMapping("/change_password") public void
-	 * getChangePassword(ChangePasswordVO vo) {
-	 * 
-	 * }
-	 * 
-	 * @PostMapping("/change_password") public String postChangePassword(@Valid
-	 * ChangePasswordVO vo, Errors errors) {
-	 * 
-	 * // 비번 확인 if (!vo.getNewPassword().equals(vo.getNewPassword2())) { // 에러추가
-	 * errors.rejectValue("newPassword2", "비밀번호 불일치", "비번확인이 일치하지 않음"); return
-	 * "redirect:/security/change_password"; }
-	 * 
-	 * if (!service.changePassword(vo)) { errors.rejectValue("orgPassword",
-	 * " 비밀번호 불일치", "이전 비번이랑 일치 안함"); }
-	 * 
-	 * if (errors.hasErrors()) { return "redirect:/security/change_password"; }
-	 * 
-	 * return "redirect:/security/profile"; }
-	 * 
-	 */
-
+	@GetMapping("/logout")
+	public String logout(HttpSession session) throws IOException {
+		session.invalidate();
+		return "redirect:/";
+	}
 }
