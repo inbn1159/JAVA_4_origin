@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.bookbook.auth.naver.NaverLoginBO;
 import org.bookbook.security.CustomUserDetailsService;
+import org.bookbook.sse.SseEmitters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
-import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import lombok.extern.log4j.Log4j;
@@ -107,5 +107,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new NaverLoginBO();
 	}
 
-
+	@Bean
+	public SseEmitters sseEmitters() {
+	    return new SseEmitters();
+	}
 }

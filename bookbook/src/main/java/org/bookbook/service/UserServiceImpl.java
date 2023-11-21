@@ -1,11 +1,11 @@
 package org.bookbook.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bookbook.domain.AuthVO;
 import org.bookbook.domain.ChangePasswordVO;
-import org.bookbook.domain.FollowerVO;
 import org.bookbook.domain.UserVO;
 import org.bookbook.mapper.FollowerMapper;
 import org.bookbook.mapper.UserMapper;
@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 	public static final String AVATAR_UPLOAD_DIR = "c:/upload/avatar";
 
 	@Autowired
-	UserMapper mapper;
+	UserMapper userMapper;
 
 	@Autowired
 	private FollowerMapper followerMapper;
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 	//
 	@Override
 	public UserVO get(String userid) {
-		return mapper.read(userid);
+		return userMapper.read(userid);
 	}
 
 	// 회원 가입
@@ -45,18 +45,18 @@ public class UserServiceImpl implements UserService {
 		userid.setPassword(encPassword);
 
 		// 2. users 테이블에 저장
-		mapper.insert(userid);
+		userMapper.insert(userid);
 
 		// 3. users_auth에 저장
 		AuthVO auth = new AuthVO(userid.getUserid(), "ROLE_USER");
-		mapper.insertAuth(auth);
+		userMapper.insertAuth(auth);
 
 	}
 
 	// 비밀번호 바꾸기
 	@Override
 	public boolean changePassword(ChangePasswordVO vo) {
-		UserVO user = mapper.read(vo.getUserid());
+		UserVO user = userMapper.read(vo.getUserid());
 
 		log.info("입력된 orgPassword: " + vo.getOrgPassword());
 		log.info("저장된 비밀번호: " + user.getPassword());
@@ -69,24 +69,38 @@ public class UserServiceImpl implements UserService {
 
 		String encPassword = pwEncoder.encode(vo.getNewPassword());
 		vo.setEncPassword(encPassword);
-		mapper.changePassword(vo);
+		userMapper.changePassword(vo);
 
 		return true;
 	}
 
 	@Override
 	public List<UserVO> getAllUsers() {
-		return mapper.getAllUsers();
+		return userMapper.getAllUsers();
 	}
 
+	// 현재 로그인한 사용자를 제외한 모든 사용자 목록을 반환하는 메서드
 	@Override
-	public List<UserVO> getAllUsersWithFollowStatus(String currentUserId) {
-		List<UserVO> users = mapper.getAllUsers();
-		users.forEach(user -> {
-			FollowerVO follow = followerMapper.findFollowByUserIds(currentUserId, user.getUserid());
-			user.setFollowed(follow != null);
-		});
-		return users;
-	}
 
+	public List<UserVO> getAllUsersWithFollowStatus(String currentUserId) {
+		List<UserVO> users = userMapper.getAllUsers(); // 모든 사용자 목록을 가져옴
+	    List<UserVO> usersWithFollowStatus = new ArrayList<>(); // 팔로우 상태가 설정된 사용자 목록
+
+	    for (UserVO user : users) {
+	        if (!user.getUserid().equals(currentUserId)) { // 현재 로그인한 사용자 제외
+	            boolean isFollowing = isFollowing(currentUserId, user.getUserid());
+	            user.setFollowStatus(isFollowing); // 팔로우 상태 설정
+	            usersWithFollowStatus.add(user); // 리스트에 추가
+	        }
+	    }
+
+	    return usersWithFollowStatus; // 현재 로그인한 사용자를 제외한 목록 반환
+	}
+	
+
+
+	// 팔로우 여부를 확인하는 메서드
+	private boolean isFollowing(String currentUserId, String otherUserId) {
+		return followerMapper.findFollowByUserIds(currentUserId, otherUserId) != null;
+	}
 }

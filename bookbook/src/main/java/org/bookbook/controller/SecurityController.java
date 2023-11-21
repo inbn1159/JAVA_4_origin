@@ -1,16 +1,15 @@
 package org.bookbook.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-
 import java.io.IOException;
 import java.text.ParseException;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.bookbook.auth.naver.NaverLoginBO;
 import org.bookbook.domain.UserVO;
+import org.bookbook.domain.notification.Notification;
 import org.bookbook.exception.DateConversionUtil;
+import org.bookbook.service.NotificationService;
 import org.bookbook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,17 +27,26 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class SecurityController {
 
-
+ 
+	@Autowired
+	NotificationService notificationService;
 	
 	@Autowired
 	UserService service;
 
 	@GetMapping("/login")
 	public void login() {
-
 		log.info("login page");
 	}
 
+	@PostMapping("/loginSuccess")
+	public String loginSuccess(HttpSession session) {
+	    // 로그인 성공 시 알림 발송 로직 호출
+	    String username = (String) session.getAttribute("username");
+	    notificationService.sendLoginSuccessNotification(username);
+	    return "redirect:/main"; // 메인 페이지로 리디렉션
+	}
+	
 	@GetMapping("/signup")
 	public void signup(@ModelAttribute("user") UserVO user) {
 

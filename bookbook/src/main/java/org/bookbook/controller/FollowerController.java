@@ -52,14 +52,14 @@ public class FollowerController {
     @PostMapping("/toggleFollow")
     @ResponseBody
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> toggleFollow(@RequestParam("userId") String userId, Principal principal) {
+    public ResponseEntity<Boolean> toggleFollow(@RequestParam("userId") String userId, Principal principal) {
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         
         String currentUserId = principal.getName(); // 현재 로그인한 사용자의 ID
 
-        followerService.toggleFollow(currentUserId, userId); // 팔로우 상태 토글
-        return ResponseEntity.ok().build();
+        boolean isFollowing = followerService.toggleFollow(currentUserId, userId); // 팔로우 상태 토글
+        return ResponseEntity.ok(isFollowing); // 팔로우 상태 반환
     }
 }
