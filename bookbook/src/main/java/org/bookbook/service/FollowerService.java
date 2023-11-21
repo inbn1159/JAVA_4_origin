@@ -15,5 +15,5 @@ public interface FollowerService {
 
 	public List<FollowerVO> getFollowings(String userId); // 사용자가 팔로우하는 목록 가져오기
 	
-	public void toggleFollow(String followerId, String followingId);  // 팔로우 상태를  토글  
+	public boolean toggleFollow(String followerId, String followingId);  // 팔로우 상태를  토글  
 }

@@ -290,6 +290,12 @@
 			<version>2.1.21.RELEASE</version>
 		</dependency>
 
+	<!-- SSE 라이브러리 -->
+	 <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>${org.springframework-version}</version>
+    </dependency>
 
 
 	</dependencies>

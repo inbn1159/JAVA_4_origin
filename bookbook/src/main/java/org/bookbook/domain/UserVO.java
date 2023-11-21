@@ -44,6 +44,8 @@ public class UserVO {
 
 	private boolean followed; // 팔로우 하고 있는지 여부
 
+	private boolean followStatus; // 팔로우 상태는 나타내는 필드
+	
 	private List<AuthVO> authList;
 
 	// JSON 직렬화에서 이 메소드를 제외

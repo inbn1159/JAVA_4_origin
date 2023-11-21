@@ -44,16 +44,18 @@ public class CustomUserDetailsService implements UserDetailsService {
 	    if (naverId != null) {
 	        UserVO naverUser = userMapper.read(naverId);
 	        if (naverUser != null) {
+	        	 // 네이버 사용자 정보가 있을 경우 CustomUser 객체로 반환
 	            return new CustomUser(naverUser);
 	        }
 	    }
 
 	    // 일반 사용자 정보 확인
-	    UserVO vo = userMapper.read(username);
-	    
-	    if (vo != null) {
-	        return new CustomUser(vo);
-	    }
+	    UserVO user = userMapper.read(username);
+        if (user != null) {
+            CustomUser customUser = new CustomUser(user);
+            customUser.setUser(user);
+            return customUser;
+        }
 	    
 		throw new UsernameNotFoundException("User not found with username: " + username);
 	}

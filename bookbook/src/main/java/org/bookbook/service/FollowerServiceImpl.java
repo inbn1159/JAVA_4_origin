@@ -37,8 +37,8 @@ public class FollowerServiceImpl implements FollowerService {
 		return followerMapper.findFollowingsByUserId(userId);
 	}
 
-	@Override
-	public void toggleFollow(String followerId, String followingId) {
+	@Transactional
+	public boolean toggleFollow(String followerId, String followingId) {
 
 		// 팔로우 상태 확인
 		FollowerVO existingFollow = followerMapper.findFollowByUserIds(followerId, followingId);
@@ -47,14 +47,15 @@ public class FollowerServiceImpl implements FollowerService {
 			log.info("언팔로우 진행. followId: " + existingFollow.getFollowId());
 			// 이미 팔로우 상태인 경우, 언팔로우
 			followerMapper.delete(existingFollow.getFollowId());
+			return false; // 언팔로우 상태 반환
 		} else {
 			log.info("팔로우 진행.");
-
 			// 팔로우 추가하기
 			FollowerVO newFollow = new FollowerVO();
 			newFollow.setFollowerId(followerId);
 			newFollow.setFollowingId(followingId);
 			followerMapper.insert(newFollow);
+			return true; // 팔로우 상태 반환
 		}
 	}
 }

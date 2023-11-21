@@ -7,19 +7,21 @@
 
 <%@ include file="../layouts/header.jsp"%>
 
+
+
+    
 <sec:authorize access="isAuthenticated()">
 	<!-- 사용자 정보 결정 -->
 	<c:set var="user"
 		value="${sessionScope.userId != null ? sessionScope : auth.principal}" />
-</sec:authorize>
+	</sec:authorize>
 
 <meta name="_csrf" content="${_csrf.token}" />
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 
 <script>
-	var currentUserId = "${user.userid}";
+	var currentUserId = "${loggedInUserId}";
 </script>
-
 
 <!-- 프로필 정보 섹션 -->
 <div class="wrap">
@@ -125,87 +127,79 @@
 		$('#followModal').hide();
 	}
 
+	
+
 	// 사용자 목록 로드
 	function loadUsers() {
-		console.log("Sending AJAX request");
-		$
-				.ajax({
-					url : '/api/usersWithFollowStatus',
-					method : 'GET',
-					success : function(users) {
-						var userList = $('#userList');
-						userList.empty();
-						var table = $('<table>').addClass('table');
-						var thead = $('<thead>').append(
-								'<tr><th>ID</th><th>이름</th><th></th></tr>');
-						var tbody = $('<tbody>');
+		   console.log("Sending AJAX request");
+		    $.ajax({
+		        url: '/api/usersWithFollowStatus',
+		        method: 'GET',
+		        success: function(users) {
+		            var userList = $('#userList');
+		            userList.empty();
+		            var table = $('<table>').addClass('table');
+		         
+		            var tbody = $('<tbody>');
 
-						users
-								.forEach(function(user) {
-									var tr = $('<tr>').append(
-											'<td>' + user.userid + '</td>')
-											.append(
-													'<td>' + user.username
-															+ '</td>');
+		            users.forEach(function(user) {
+		                if (user.userid !== currentUserId) { // 현재 로그인한 사용자 제외
+		                	var tr = $('<tr>').append('<td>' + user.userid + '</td>')
+		                						.append('<td>' + user.username + '</td>');
+		                	 var followText = user.followStatus ? '언팔로우' : '팔로우';
+		                	 tr.append('<td><button data-userid="' + user.userid + '" class="btn btn-outline-primary">' + followText + '</button></td>');
+		                	 tbody.append(tr);
+		                }
+		            });
 
-									// 
-									if (user.userid !== currentUserId) {
-										var followText = user.followed ? '언팔로우'
-												: '팔로우';
-										tr
-												.append('<td><button data-userid="' + user.userid + '" class="btn btn-outline-primary">'
-														+ followText
-														+ '</button></td>');
-									} else {
-										tr.append('<td></td>');
-									}
-									tbody.append(tr);
-								});
-
-						table.append(thead).append(tbody);
-						userList.append(table);
-					},
-					error : function(error) {
-						console.log('Error fetching user list:', error);
-					}
-				});
-	}
+		            table.append(tbody);
+		            userList.append(table);
+		        },
+		        error: function(error) {
+		            // 오류 처리
+		        }
+		    });
+		}
 
 	// 팔로우 상태 토글
-	function toggleFollow(userId) {
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
-		console.log("CSRF Token: " + token);
-		console.log("CSRF Header: " + header);
-		$.ajax({
-			url : '/security/toggleFollow',
-			method : 'POST',
-			data : {
-				userId : userId
-			},
-			beforeSend : function(xhr) {
-				if (header) {
-					xhr.setRequestHeader(header, token);
-				} else {
-					console.error('CSRF header is undefined');
-				}
-			},
-			success : function(response) {
-				console.log('Follow toggle success:', response);
-				var button = $('button[data-userid="' + userId + '"]');
-				button.text(button.text() === '팔로우' ? '언팔로우' : '팔로우');
-			},
-			error : function(error) {
-				console.log('팔로우 변경 실패:', error);
-			}
-		});
-	}
+function toggleFollow(userId) {
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
 
-	// 버튼 클릭 이벤트 처리
-	$('#userList').on('click', 'button', function() {
-		var userId = $(this).data('userid');
-		toggleFollow(userId);
-	});
+    $.ajax({
+        url: '/security/toggleFollow',
+        method: 'POST',
+        data: { userId: userId },
+        beforeSend: function(xhr) {
+            if (header) {
+                xhr.setRequestHeader(header, token);
+            }
+        },
+        success: function(isFollowing) {
+            console.log("Toggle follow response for user " + userId + ": " + isFollowing);
+            var button = $('button[data-userid="' + userId + '"]');
+            updateButtonState(button, isFollowing);
+        },
+        error: function(error) {
+            console.error('Error toggling follow:', error);
+        }
+    });
+}
+	
+	//버튼 상태 업데이트 
+function updateButtonState(button, isFollowing) {
+    if (isFollowing) {
+        button.text('언팔로우');
+    } else {
+        button.text('팔로우');
+    }
+}
+	
+$('#userList').on('click', 'button', function() {
+    var userId = $(this).data('userid');
+    console.log("Toggling follow for user " + userId);
+    toggleFollow(userId);
+});
 
 	//  모달창 닫기
 	window.onclick = function(event) {
