@@ -2,7 +2,9 @@ package org.bookbook.config;
 
 import javax.sql.DataSource;
 
+import org.bookbook.auth.naver.NaverLoginBO;
 import org.bookbook.security.CustomUserDetailsService;
+import org.bookbook.sse.SseEmitters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,9 +28,17 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	@Autowired
+	private DataSource dataSource;
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public UserDetailsService customUserService() {
+		return new CustomUserDetailsService();
 	}
 
 	protected void configure(HttpSecurity http) throws Exception {
@@ -39,11 +50,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.csrf().ignoringAntMatchers("/api/**");
 
-		http.authorizeRequests().antMatchers("/security/profile").authenticated();
+	    http.authorizeRequests()
+	 // 네이버 로그인 관련 URL을 인증 없이 접근 가능하도록 설정
+	    .antMatchers("/naver-login-url", "/callback").permitAll()
+	    .antMatchers("/api/users").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+	    .antMatchers("/security/toggleFollow").authenticated() 
+        .antMatchers("/security/profile").authenticated()
+     
+        .and();
 
-		http.formLogin().loginPage("/security/login?error=login_required") // 로그인 안하고 접근한 경우 리다이렉트
+		http.formLogin().usernameParameter("userid") // 사용자 이름 필드를 'userid'로 설정
+				.loginPage("/security/login?error=login_required") // 로그인 안하고 접근한 경우 리다이렉트
 				.loginProcessingUrl("/security/login").defaultSuccessUrl("/") // 로그인 성공시 다음 화면 넘어줄 URL
 				.failureUrl("/security/login?error=true"); // el : param.error
+		
 
 		http.logout() // 로그아웃 설정 시작
 				.logoutUrl("/security/logout") // 로그아웃을 수행할 때 POST 요청을 보낼 URL을 설정
@@ -56,15 +76,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.tokenRepository(persistentTokenRepository()) // "remember-me" 토큰의 저장과 검색을 담당하는 리포지토리를 설정
 				.tokenValiditySeconds(3 * 24 * 60 * 60); // "remember-me" 토큰의 유효성 기간을 설정. 3일 동안 유효한 토큰을 설정
 
+		 http.sessionManagement()
+         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+         .invalidSessionUrl("/security/login")
+         .maximumSessions(1)
+         .expiredUrl("/security/login");
 	}
-//
-	@Autowired
-	private DataSource dataSource;
 
-	@Bean
-	public UserDetailsService customUserService() {
-		return new CustomUserDetailsService();
-	}
+
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -82,4 +101,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return repo;
 	}
 
+	@Bean
+	public NaverLoginBO naverLoginBO() {
+		// NaverLoginBO 인스턴스 생성 로직
+		return new NaverLoginBO();
+	}
+
+	@Bean
+	public SseEmitters sseEmitters() {
+	    return new SseEmitters();
+	}
 }

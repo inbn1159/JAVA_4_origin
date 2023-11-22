@@ -43,6 +43,8 @@ public class UserVO {
 	private String gender;
 
 	private boolean followed; // 팔로우 하고 있는지 여부
+
+	private boolean followStatus; // 팔로우 상태는 나타내는 필드
 	
 	private List<AuthVO> authList;
 
@@ -60,10 +62,5 @@ public class UserVO {
 	public List<String> getRoles() {
 		return this.authList.stream().map(AuthVO::getAuth).collect(Collectors.toList());
 	}
-
-	
-
-	
-
 
 }

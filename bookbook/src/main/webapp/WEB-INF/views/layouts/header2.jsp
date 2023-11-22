@@ -14,7 +14,6 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
 	integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
 	crossorigin="anonymous">
-
 <!-- 글꼴 -->
 <link
 	href="https://hangeul.pstatic.net/hangeul_static/css/maru-buri.css"
@@ -22,13 +21,8 @@
 <link
 	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css"
 	rel="stylesheet">
-	
-<!-- fontawsome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-
-<!-- base css -->
+<!-- css링크 -->
 <link rel="stylesheet" href="/resources/css/base.css" />
-
 <!-- bootstrap js -->
 <script
 	src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
@@ -40,16 +34,42 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
 	integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
 	crossorigin="anonymous"></script>
+<style>
+.blank {
+	border: 3px solid red;
+	width: 140px;
+	height: 39px;
+}
 
+header {
+	justify-content: flex-end;
+}
+.sign .btn{
+	margin-bottom: 5px;
+}
+.cate {
+	background-color: white;
+	color: black;
+	border: 1px solid #cccccc;
+}
 
+#searchIco {
+	width: 38px;
+	height: 38px;
+}
+
+#searching {
+	border: none;
+}
+</style>
 </head>
 <body>
 	<div class=background>
 		<header>
 			<ul class="navbar-nav sign">
 				<sec:authorize access="isAuthenticated()">
-					<sec:authentication property="principal.username" var="username" />
 					<!-- 로그인 된 상태 -->
+			   <c:if test="${not empty username}">
 				<li class="nav-item">
 					<div class="btn-group">
 						<button type="button" class="btn btn-secondary dropdown-toggle sub"
@@ -59,13 +79,13 @@
 						</button>
 
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-							<li><a class="dropdown-item" href="#">로그아웃</a></li>
+							<li><a class="dropdown-item" href="/security/logout">로그아웃</a></li>
 							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="#">프로필</a></li>
+							<li><a class="dropdown-item" href="/security/profile">프로필</a></li>
 						</ul>
 					</div> 
 				</li>
-
+ 			</c:if>
 				</sec:authorize>
 				<sec:authorize access="isAnonymous()">
 				<!-- 로그아웃 된 상태 -->

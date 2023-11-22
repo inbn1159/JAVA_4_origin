@@ -18,6 +18,4 @@ public interface UserService {
 
 	public List<UserVO> getAllUsersWithFollowStatus(String currentUserId); 
 	
-
-
 }
