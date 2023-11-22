@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -23,6 +24,11 @@
 	rel="stylesheet">
 <!-- css링크 -->
 <link rel="stylesheet" href="/resources/css/base.css" />
+<!-- FontAwesome -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+	integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- bootstrap js -->
 <script
 	src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
@@ -34,6 +40,7 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
 	integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
 	crossorigin="anonymous"></script>
+
 <style>
 .blank {
 	border: 3px solid red;
@@ -44,9 +51,11 @@
 header {
 	justify-content: flex-end;
 }
-.sign .btn{
+
+.sign .btn {
 	margin-bottom: 5px;
 }
+
 .cate {
 	background-color: white;
 	color: black;
@@ -69,41 +78,42 @@ header {
 			<ul class="navbar-nav sign">
 				<sec:authorize access="isAuthenticated()">
 					<!-- 로그인 된 상태 -->
-			   <c:if test="${not empty username}">
-				<li class="nav-item">
-					<div class="btn-group">
-						<button type="button" class="btn btn-secondary dropdown-toggle sub"
-							data-bs-toggle="dropdown" aria-expanded="false">
-							<img class="avatar"
-								src="https://api.dicebear.com/7.x/identicon/svg?seed=대충 아이디" />
-						</button>
+					<c:if test="${not empty username}">
+						<li class="nav-item">
+							<div class="btn-group">
+								<button type="button"
+									class="btn btn-secondary dropdown-toggle sub"
+									data-bs-toggle="dropdown" aria-expanded="false">
+									<img class="avatar"
+										src="https://api.dicebear.com/7.x/identicon/svg?seed=대충 아이디" />
+								</button>
 
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-							<li><a class="dropdown-item" href="/security/logout">로그아웃</a></li>
-							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="/security/profile">프로필</a></li>
-						</ul>
-					</div> 
-				</li>
- 			</c:if>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+									<li><a class="dropdown-item" href="/security/logout">로그아웃</a></li>
+									<li><hr class="dropdown-divider"></li>
+									<li><a class="dropdown-item" href="/security/profile">프로필</a></li>
+								</ul>
+							</div>
+						</li>
+					</c:if>
 				</sec:authorize>
 				<sec:authorize access="isAnonymous()">
-				<!-- 로그아웃 된 상태 -->
+					<!-- 로그아웃 된 상태 -->
 
-				<li class="nav-item sign">
-					<button type="button" class="btn btn-secondary sub"
-						onclick="location.href='/security/login'">
-						<!-- 코드보기 편하게용 주석 -->
-						로그인
-					</button>
-				</li>
-				<li class="nav-item sign">
-					<button type="button" class="btn btn-secondary sub"
-						onclick="location.href='/security/signup'">
-						<!-- 코드보기 편하게용 주석 -->
-						회원가입
-					</button>
-				</li>
+					<li class="nav-item sign">
+						<button type="button" class="btn btn-secondary sub"
+							onclick="location.href='/security/login'">
+							<!-- 코드보기 편하게용 주석 -->
+							로그인
+						</button>
+					</li>
+					<li class="nav-item sign">
+						<button type="button" class="btn btn-secondary sub"
+							onclick="location.href='/security/signup'">
+							<!-- 코드보기 편하게용 주석 -->
+							회원가입
+						</button>
+					</li>
 
 				</sec:authorize>
 			</ul>

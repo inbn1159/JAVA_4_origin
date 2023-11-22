@@ -3,6 +3,8 @@
 
 <%@include file="layouts/header2.jsp"%>
 
+<%@include file="layouts/sidebar.jsp" %>
+
 <div class="main">
 	<!-- 이 안에 본문 내용 넣어주시고 class 명도 꼭 같이 넣어주세요 -->
 	<img class="logo" src="/resources/images/logo1.png">
