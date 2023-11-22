@@ -93,14 +93,14 @@ header {
 				<li class="nav-item sign">
 					<button type="button" class="btn btn-secondary sub"
 						onclick="location.href='/security/login'">
-						<!-- 코드보기 편하게용 주석 -->
+						<!-- 코드보기 편하게하기위한 주석 (추후삭제) -->
 						로그인
 					</button>
 				</li>
 				<li class="nav-item sign">
 					<button type="button" class="btn btn-secondary sub"
 						onclick="location.href='/security/signup'">
-						<!-- 코드보기 편하게용 주석 -->
+						<!-- 코드보기 편하게하기위한 주석 (추후삭제) -->
 						회원가입
 					</button>
 				</li>
