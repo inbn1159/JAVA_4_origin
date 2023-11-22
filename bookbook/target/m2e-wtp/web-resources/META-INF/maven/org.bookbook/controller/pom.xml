@@ -37,23 +37,6 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
-			
-		<!-- WebClient -->
-		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-webflux</artifactId>
-		    <version>${spring-boot.version}</version>
-		</dependency>
-				
-
-		<!-- Web Starter -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-			<version>${spring-boot.version}</version>
-		</dependency>
-
 
 		<dependency>
 			<groupId>org.springframework</groupId>
