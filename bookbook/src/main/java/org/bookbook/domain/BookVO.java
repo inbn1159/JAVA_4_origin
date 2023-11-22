@@ -11,12 +11,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BookVO {
-	private int book_id;
+	private int bookid;
 	private String title;
 	private String author;
-	private String book_intro;
+	private String bookintro;
 	private String publisher;
-	private Date publication_date;
+	private Date publicationdate;
 	private Long isbn;
 	private String genre;
+	private String category;
+	private String Topic;
 }
