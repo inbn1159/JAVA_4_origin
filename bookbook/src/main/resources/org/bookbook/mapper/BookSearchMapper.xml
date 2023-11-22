@@ -4,39 +4,56 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.bookbook.mapper.BookSearchMapper">
 
-<select id="read" parameterType="org.bookbook.domain.BookSearchVO" resultType="BookVO">
-    SELECT DISTINCT b.*
-    FROM book b
-    JOIN book_keyword bk ON b.book_id = bk.book_id
-	<where>
-	    <if test="bookType != null and bookType.length > 0">
-        AND b.genre IN
-        <foreach item="type" collection="bookType" open="(" separator="," close=")">
-            #{type}
-        </foreach>
-    </if>
-    
-    <if test="keywords != null and keywords.length > 0">
-        AND (
-            <foreach item="keyword" collection="keywords" separator="AND">
-                bk.keywords LIKE CONCAT('%', #{keyword}, '%')
-            </foreach>
-        )
-    </if>
-    
-	<if test="categories != null and categories.length > 0">
-	    AND b.category IN
-	    <foreach item="type" collection="categories" open="(" separator="," close=")">
-	        #{type}
-	    </foreach>
-	</if>
-	</where>
-</select>
+	<select id="read"
+		parameterType="org.bookbook.domain.BookSearchVO" resultType="BookVO">
+		SELECT Distinct b.*
+		FROM book b
+		JOIN book_keyword bk ON b.book_id = bk.book_id
+		<where>
+			<if test="bookType != null and bookType.length > 0">
+				AND b.genre IN
+				<foreach item="type" collection="bookType" open="("
+					separator="," close=")">
+					#{type}
+				</foreach>
+			</if>
 
+			<if test="keywords != null and keywords.length > 0">
+				AND (
+				<foreach item="keyword" collection="keywords"
+					separator="AND">
+					bk.keywords LIKE CONCAT('%', #{keyword}, '%')
+				</foreach>
+				)
+			</if>
 
-<select id="get" resultType="CategoriesVO">
-select * from book_categories;
-</select>
+			<if test="categories != null and categories.length > 0">
+				AND b.category IN
+				<foreach item="type" collection="categories" open="("
+					separator="," close=")">
+					#{type}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+	<select id="getListPaging" resultType="BookVO">
+		select * from (select book_id, title, author, book_intro, publisher, genre,
+		category
+		from book order by book_id ASC) as T1
+		limit #{skip},#{amount}
+	</select>
+
+	<!-- 게시물 총 개숫 -->
+	<select id="getTotal" resultType="int">
+
+		select count(*) from book
+
+	</select>
+
+	<select id="get" resultType="CategoriesVO">
+		select * from book_categories;
+	</select>
 
 
 </mapper>

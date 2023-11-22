@@ -19,4 +19,5 @@ public class BookVO {
 	private Date publication_date;
 	private Long isbn;
 	private String genre;
+	private String category;
 }
