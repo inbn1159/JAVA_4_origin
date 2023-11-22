@@ -242,6 +242,8 @@ a:hover {
 						href="/book/list?pageNum=${num}">${num}</a></li>
 				</c:forEach>
 
+
+				
 				<!-- 다음페이지 버튼 -->
 				<c:if test="${pageMaker.next}"> 
 					<li class="pageInfo_btn next"><a

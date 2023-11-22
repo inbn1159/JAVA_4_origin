@@ -38,17 +38,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="getListPaging" resultType="BookVO">
-		select * from (select book_id, title, author, book_intro, publisher, genre,
-		category
-		from book order by book_id ASC) as T1
+		select * from book
 		limit #{skip},#{amount}
 	</select>
 
 	<!-- 게시물 총 개숫 -->
 	<select id="getTotal" resultType="int">
-
 		select count(*) from book
-
 	</select>
 
 	<select id="get" resultType="CategoriesVO">
