@@ -3,10 +3,13 @@ package org.bookbook.controller;
 import java.io.IOException;
 import java.text.ParseException;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.bookbook.domain.UserVO;
+import org.bookbook.domain.notification.Notification;
 import org.bookbook.exception.DateConversionUtil;
+import org.bookbook.service.NotificationService;
 import org.bookbook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,9 +25,12 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @RequestMapping("/security")
 @Log4j
-
 public class SecurityController {
 
+ 
+	@Autowired
+	NotificationService notificationService;
+	
 	@Autowired
 	UserService service;
 
@@ -33,12 +39,19 @@ public class SecurityController {
 		log.info("login page");
 	}
 
+	@PostMapping("/loginSuccess")
+	public String loginSuccess(HttpSession session) {
+	    // 로그인 성공 시 알림 발송 로직 호출
+	    String username = (String) session.getAttribute("username");
+	    notificationService.sendLoginSuccessNotification(username);
+	    return "redirect:/main"; // 메인 페이지로 리디렉션
+	}
+	
 	@GetMapping("/signup")
 	public void signup(@ModelAttribute("user") UserVO user) {
 
 	}
 
-	//
 	@PostMapping("/signup")
 	public String signup(@Valid @ModelAttribute("user") UserVO user, Errors errors,
 			@RequestParam("birth.year") String year, @RequestParam("birth.month") String month,
@@ -53,7 +66,7 @@ public class SecurityController {
 		// 2. 아이디 중복
 		if (!errors.hasFieldErrors("userid")) { // username 유효성 통과한 경우에
 			// DB에서 userid을 검사
-			if (service.get(user.getUserid()) != null) { // 중복일떄
+			if (service.get(user.getUserid()) != null) { // 중복일때
 				errors.rejectValue("userid", "ID 중복", "이미 사용중인 ID입니다.");
 			}
 		}
@@ -84,30 +97,11 @@ public class SecurityController {
 
 	@GetMapping("/profile")
 	public void profile() {
-
 	}
 
-	/*
-	 * 
-	 * @GetMapping("/change_password") public void
-	 * getChangePassword(ChangePasswordVO vo) {
-	 * 
-	 * }
-	 * 
-	 * @PostMapping("/change_password") public String postChangePassword(@Valid
-	 * ChangePasswordVO vo, Errors errors) {
-	 * 
-	 * // 비번 확인 if (!vo.getNewPassword().equals(vo.getNewPassword2())) { // 에러추가
-	 * errors.rejectValue("newPassword2", "비밀번호 불일치", "비번확인이 일치하지 않음"); return
-	 * "redirect:/security/change_password"; }
-	 * 
-	 * if (!service.changePassword(vo)) { errors.rejectValue("orgPassword",
-	 * " 비밀번호 불일치", "이전 비번이랑 일치 안함"); }
-	 * 
-	 * if (errors.hasErrors()) { return "redirect:/security/change_password"; }
-	 * 
-	 * return "redirect:/security/profile"; }
-	 * 
-	 */
-
+	@GetMapping("/logout")
+	public String logout(HttpSession session) throws IOException {
+		session.invalidate();
+		return "redirect:/";
+	}
 }

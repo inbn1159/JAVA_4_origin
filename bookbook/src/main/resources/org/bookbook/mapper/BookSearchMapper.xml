@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     SELECT DISTINCT b.*
     FROM book b
     JOIN book_keyword bk ON b.book_id = bk.book_id
+    
 	<where>
 	    <if test="bookType != null and bookType.length > 0">
         AND b.genre IN
@@ -15,7 +16,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{type}
         </foreach>
     </if>
+
     
+	<if test="selectedCategories != null and selectedCategories.length > 0">
+	    AND b.category IN
+	    <foreach item="type" collection="selectedCategories" open="(" separator="," close=")">
+	        #{type}
+	    </foreach>
+	</if>
+    
+	<if test="Topics != null and Topics.length > 0">
+	    AND b.Topic IN
+	    <foreach item="type" collection="Topics" open="(" separator="," close=")">
+	        #{type}
+	    </foreach>
+	</if>
+	    
     <if test="keywords != null and keywords.length > 0">
         AND (
             <foreach item="keyword" collection="keywords" separator="AND">
@@ -23,19 +39,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </foreach>
         )
     </if>
-    
-	<if test="categories != null and categories.length > 0">
-	    AND b.category IN
-	    <foreach item="type" collection="categories" open="(" separator="," close=")">
-	        #{type}
-	    </foreach>
-	</if>
 	</where>
+	
+        LIMIT 100
+	
 </select>
 
 
-<select id="get" resultType="CategoriesVO">
-select * from book_categories;
+<select id="getTopic" resultType="TopicVO">
+SELECT * from book_topics;
+</select>
+
+<select id="getGenre" resultType="GenreVO">
+SELECT * from book_genres;
 </select>
 
 

@@ -7,7 +7,9 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-public class CategoriesVO {
-	private String genre;
-	private String categories;
+
+public class GenreVO {
+    private String genre;
+    private String categories;
 }
+
