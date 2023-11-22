@@ -63,7 +63,8 @@ public class NaverController {
 	            
 	            // NaverUserVO 객체 세션에 저장
 	            session.setAttribute("naverUser", naverUser);
-
+	            
+	   
 	            return "redirect:/";
 	        } else {
 	            return "error";
