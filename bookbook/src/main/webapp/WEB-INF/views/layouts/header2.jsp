@@ -14,6 +14,7 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
 	integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
 	crossorigin="anonymous">
+
 <!-- 글꼴 -->
 <link
 	href="https://hangeul.pstatic.net/hangeul_static/css/maru-buri.css"
@@ -21,8 +22,13 @@
 <link
 	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css"
 	rel="stylesheet">
-<!-- css링크 -->
+	
+<!-- fontawsome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+<!-- base css -->
 <link rel="stylesheet" href="/resources/css/base.css" />
+
 <!-- bootstrap js -->
 <script
 	src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
@@ -34,34 +40,8 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
 	integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
 	crossorigin="anonymous"></script>
-<style>
-.blank {
-	border: 3px solid red;
-	width: 140px;
-	height: 39px;
-}
 
-header {
-	justify-content: flex-end;
-}
-.sign .btn{
-	margin-bottom: 5px;
-}
-.cate {
-	background-color: white;
-	color: black;
-	border: 1px solid #cccccc;
-}
 
-#searchIco {
-	width: 38px;
-	height: 38px;
-}
-
-#searching {
-	border: none;
-}
-</style>
 </head>
 <body>
 	<div class=background>
