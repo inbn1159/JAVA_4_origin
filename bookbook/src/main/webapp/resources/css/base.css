@@ -12,12 +12,16 @@ body {
 }
 
 .background {
+	overflow: auto;
 	position: relative;
 	width: 95%;
 	height: 95%;
 	margin: 15px;
 	padding: 15px;
 	background-color: #fafae5;
+}
+.background::-webkit-scrollbar {
+  display: none;
 }
 
 header {
