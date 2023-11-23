@@ -9,4 +9,5 @@ public interface BestService {
 	public List<BestVO> getList(Criteria cri);
 	public int getTotalCount(Criteria cri);
 	public BestVO get(int column1);
+	public int getTotal(Criteria cri);
 }
