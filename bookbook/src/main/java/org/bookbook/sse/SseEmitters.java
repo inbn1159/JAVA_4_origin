@@ -1,57 +1,85 @@
 package org.bookbook.sse;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component
 public class SseEmitters {
 
-	// private static final AtomicLong counter = new AtomicLong();
+	private final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
-	// private final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
-//  ConcurrnetModificationException이 발생 방지로 thread-safe한 자료구조인 CopyOnWriteArrayList를 사용
+	private final ObjectMapper objectMapper = new ObjectMapper();
 
-	// 각 사용자별로 SseEmitter 인스턴스를 저장하는 맵
-	private final Map<String, SseEmitter> userEmitters = new ConcurrentHashMap<>();
+	public void addEmitter(SseEmitter emitter) {
+		emitters.add(emitter);
+	}
 
-	// 사용자별 SseEmitter 인스턴스를 추가하는 메소드
-	public void addEmitter(String userId, SseEmitter emitter) {
-		userEmitters.put(userId, emitter);
+	public void removeEmitter(SseEmitter emitter) {
+		emitters.remove(emitter);
+	}
+
+	// 모든 연결된 클라이언트에게 이벤트를 전송
+	// JSON으로 해봄
+	public void sendToAllConnectedClients(Object data) {
+		List<SseEmitter> listEmitters = new ArrayList<>();
+		String jsonData;
+
 		try {
-			emitter.send(SseEmitter.event().name("connect").data("connected!"));
-		} catch (IOException e) {
-			userEmitters.remove(userId);
-			// 로그 및 에러 처리
+			jsonData = objectMapper.writeValueAsString(data);
+			System.out.println("데이터를 JSON으로 변환함: " + jsonData);
+		} catch (Exception e) {
+			log.error("데이터를 JSON으로 변환하는 중 오류 발생", e);
+			System.out.println("데이터를 JSON으로 변환하는 중 오류 발생: " + e.getMessage());
+			return;
 		}
-	}
 
-	// 사용자별 SseEmitter 인스턴스를 제거하는 메소드
-	public void removeEmitter(String userId) {
-		userEmitters.remove(userId);
-	}
+		
+		
+		 //
+		log.info("현재 연결된 클라이언트 수: {}", emitters.size());
 
-	// 특정 사용자에게만 이벤트를 전송하는 메소드
-	public void sendToUser(String userId, String eventType, Object data) {
-		SseEmitter emitter = userEmitters.get(userId);
-		if (emitter != null) {
+		for (SseEmitter emitter : emitters) {
 			try {
-				log.info("Sending {} event to user {}", eventType, userId); // 로그 추가
-				emitter.send(SseEmitter.event().name(eventType).data(data));
-			} catch (IOException e) {
-				// 로그 추가 및 에러 처리
-				log.error("Error sending event to user: {}, Error: {}", userId, e.getMessage()); // 에러 로그 추가
-				userEmitters.remove(userId);
+				log.info("emitter에게 JSON 데이터 전송 중");
+				  emitter.send(SseEmitter.event().data(jsonData, MediaType.APPLICATION_JSON));
+				System.out.println("emitter에게 JSON 데이터 전송 중: " + jsonData); // 데이터 전송 로그
+			} catch (Exception e) {
+				log.error("emitter에게 데이터 전송 중 오류 발생", e);
+				listEmitters.add(emitter);
+				System.out.println("emitter에게 데이터 전송 중 오류 발생: " + e.getMessage()); // 데이터 전송 오류 로그
 			}
 		}
+
+		listEmitters.forEach(this::removeEmitter);
+		}
 	}
-}
+
+//	public void sendToAllConnectedClients(Object data) {
+//		List<SseEmitter> deadEmitters = new ArrayList<>();
+//		for (SseEmitter emitter : emitters) {
+//			try {
+//				log.info("Sending data to emitter");
+//				System.out.println("Sending data to emitter: " + data);
+//				emitter.send(SseEmitter.event().data(data));
+//			} catch (Exception e) {
+//				log.error("Error sending data to emitter", e);
+//				System.out.println("Error sending data to emitter: " + e.getMessage());
+//				deadEmitters.add(emitter);
+//
+//			}
+//		}
+//		for (SseEmitter deadEmitter : deadEmitters) {
+//			emitters.remove(deadEmitter);
+//		}//
+//	}
+
+

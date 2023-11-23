@@ -1,0 +1,22 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.bookbook.mapper.NotificationMapper">
+
+    <insert id="insertNotification" parameterType="org.bookbook.domain.notification.Notification">
+        INSERT INTO notifications (content, receiver, read_flag)
+        VALUES (#{content}, #{receiver}, #{read})
+    </insert>
+
+    <select id="getNotificationsForUser" resultType="org.bookbook.domain.notification.Notification">
+        SELECT id, content, receiver, read_flag
+        FROM notifications
+        WHERE receiver = #{userId}
+    </select>
+
+    <update id="updateNotificationReadStatus">
+        UPDATE notifications
+        SET read_flag = #{readStatus}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

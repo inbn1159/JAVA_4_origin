@@ -9,12 +9,13 @@ import javax.validation.Valid;
 
 import org.bookbook.domain.UserVO;
 import org.bookbook.exception.DateConversionUtil;
-import org.bookbook.service.NotificationService;
+import org.bookbook.service.NotificationServiceimpl;
 import org.bookbook.service.UserService;
 import org.bookbook.sse.SseEmitters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +30,7 @@ import lombok.extern.log4j.Log4j;
 public class SecurityController {
 
 	@Autowired
-	NotificationService notificationService;
+	NotificationServiceimpl notificationService;
 
 	@Autowired
 	UserService service;
@@ -39,18 +40,10 @@ public class SecurityController {
 
 	@GetMapping("/login")
 	public void login() {
+		
 		log.info("login page");
 	}
 
-	@PostMapping("/loginSuccess")
-	public String loginSuccess(Principal principal) {
-		if (principal != null) {
-			String username = principal.getName();
-			  log.info("Login success for user: username"); // 로그 기록
-			notificationService.sendLoginSuccessNotification(username);
-		}
-		return "redirect:/";
-	}
 
 	@GetMapping("/signup")
 	public void signup(@ModelAttribute("user") UserVO user) {
