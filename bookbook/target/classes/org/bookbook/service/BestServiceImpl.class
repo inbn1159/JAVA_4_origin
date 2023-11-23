@@ -16,7 +16,7 @@ public class BestServiceImpl implements BestService {
 
 	@Autowired
 	private BestMapper mapper;
-	
+
 	@Override
 	public int getTotalCount(Criteria cri) {
 		return mapper.getTotalCount(cri);
@@ -24,7 +24,7 @@ public class BestServiceImpl implements BestService {
 
 	@Override
 	public List<BestVO> getList(Criteria cri) {
-		List<BestVO>  list = mapper.getList(cri);
+		List<BestVO> list = mapper.getList(cri);
 		return mapper.getListWithPaging(cri);
 	}
 
@@ -32,6 +32,12 @@ public class BestServiceImpl implements BestService {
 	public BestVO get(int column1) {
 		BestVO best = mapper.get(column1);
 		return best;
+	}
+
+	@Override
+	public int getTotal(Criteria cri) {
+		log.info("get total count");
+		return mapper.getTotalCount(cri);
 	}
 
 }
