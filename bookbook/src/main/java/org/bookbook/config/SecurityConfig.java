@@ -4,7 +4,7 @@ import javax.sql.DataSource;
 
 import org.bookbook.auth.naver.NaverLoginBO;
 import org.bookbook.security.CustomUserDetailsService;
-import org.bookbook.service.NotificationService;
+import org.bookbook.service.NotificationServiceimpl;
 import org.bookbook.sse.SseEmitters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,9 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private DataSource dataSource;
 
 	@Autowired
-	private NotificationService notificationService;
+	private NotificationServiceimpl notificationService;
 
-	// CustomLoginSuccessHandler 빈 등록
+	// CustomLoginSuccessHandler Bean 등록
 	@Bean
 	public AuthenticationSuccessHandler customLoginSuccessHandler() {
 		return new CustomLoginSuccessHandler(notificationService);
@@ -50,6 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public UserDetailsService customUserService() {
 		return new CustomUserDetailsService();
+	}
+
+	@Bean
+	public SseEmitters sseEmitters() {
+		return new SseEmitters();
 	}
 
 	@Override
@@ -72,9 +77,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.formLogin().usernameParameter("userid") // 사용자 이름 필드를 'userid'로 설정
 				.loginPage("/security/login?error=login_required") // 로그인 안하고 접근한 경우 리다이렉트
-				.loginProcessingUrl("/security/login").successHandler(customLoginSuccessHandler())
-				.defaultSuccessUrl("/") // 로그인 성공시 다음 화면 넘어줄 URL
-				.failureUrl("/security/login?error=true"); // el : param.error
+				.loginProcessingUrl("/security/login").defaultSuccessUrl("/") // 로그인 성공시 다음 화면 넘어줄 URL
+				.successHandler(customLoginSuccessHandler()).failureUrl("/security/login?error=true"); // el : //
+																										// param.error
 
 		http.logout() // 로그아웃 설정 시작
 				.logoutUrl("/security/logout") // 로그아웃을 수행할 때 POST 요청을 보낼 URL을 설정
@@ -111,11 +116,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public NaverLoginBO naverLoginBO() {
 		// NaverLoginBO 인스턴스 생성 로직
 		return new NaverLoginBO();
-	}
-
-	@Bean
-	public SseEmitters sseEmitters() {
-		return new SseEmitters();
 	}
 
 }
