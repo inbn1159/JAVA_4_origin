@@ -27,7 +27,7 @@
 	<select id="getListWithPaging"
 		resultType="org.bookbook.domain.BestVO">
 <![CDATA[
-select column1, title, writer
+select column1, title, author, images
 from best
 limit #{offset} , #{amount}
 ]]>
